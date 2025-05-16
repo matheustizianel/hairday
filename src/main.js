@@ -7,3 +7,4 @@ import "./styles/schedule.css"
 import "./libs/dayjs.js"
 
 import "./modules/form/submit.js"
+import "./modules/page-load.js"
