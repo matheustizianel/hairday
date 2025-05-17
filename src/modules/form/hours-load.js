@@ -4,17 +4,21 @@ import dayjs from "dayjs"
 
 const hours = document.querySelector("#hours")
 
-export function hoursLoad({date}) {
+export function hoursLoad({date, dailySchedules}) {
     hours.innerHTML = ""
+
+    const unavailableHours = dailySchedules.map(schedule => dayjs(schedule.when).format("HH:mm")) 
 
     const opening = openingHours.map((hour) => {
         const [scheduleHour] = hour.split(":")
         
-        const isPastHour = dayjs(date).add(scheduleHour, "hour").isAfter(dayjs())
+        const isPastHour = dayjs(date).add(scheduleHour, "hour").isBefore(dayjs())
+
+        const available = !unavailableHours.includes(hour) && !isPastHour
         
         return ({
             hour,
-            available: isPastHour
+            available
         })
     })
 

@@ -1,3 +1,5 @@
+import { scheduleNew } from "../../services/schedule-new.js"
+import { schedulesDay } from "../schedules/load.js"
 import dayjs from "dayjs"
 
 const form = document.querySelector("form")
@@ -9,7 +11,7 @@ const inputToday = dayjs(new Date()).format("YYYY-MM-DD")
 selectedDate.value = inputToday
 selectedDate.min = inputToday
 
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async (event) => {
     event.preventDefault()
     
     try {
@@ -30,11 +32,11 @@ form.addEventListener("submit", (event) => {
 
         const id = new Date().getTime()
 
-        console.log({
-            id,
-            name,
-            when
-        })
+        await scheduleNew({id,name,when})
+
+        await schedulesDay()
+
+        clientName.value = ""
     } catch (error) {
         alert("Sorry! It was not possible to save your appointment.")
         console.log(error)
